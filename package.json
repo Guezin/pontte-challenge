@@ -5,12 +5,15 @@
   "author": "Guezin <leandroguezinjunior@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev:server": "tsnd -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify ./src/shared/infra/http/server.ts"
+    "dev:server": "tsnd -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify ./src/shared/infra/http/server.ts",
+    "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.3.3",
+    "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.28"
   },
   "devDependencies": {

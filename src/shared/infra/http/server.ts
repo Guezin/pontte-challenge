@@ -1,4 +1,8 @@
+import 'reflect-metadata'
+import 'dotenv/config'
 import express, { json } from 'express'
+
+import '@shared/infra/typeorm/database'
 
 import Routes from './routes/index.routes'
 
