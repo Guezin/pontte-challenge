@@ -1,14 +1,16 @@
 import 'reflect-metadata'
 import 'dotenv/config'
 import express, { json, Express } from 'express'
+import 'express-async-errors'
 
 import '@shared/infra/typeorm/database'
 import '../container'
 
 import Routes from './routes/index.routes'
+import middlewareError from './middlewares/error'
 
 class Server {
-  private server: Express
+  public readonly server: Express
   private PORT: number
 
   constructor() {
@@ -22,6 +24,7 @@ class Server {
   private middlewares() {
     this.server.use(json())
     this.server.use(Routes)
+    this.server.use(middlewareError)
   }
 
   private init() {
@@ -31,4 +34,4 @@ class Server {
   }
 }
 
-export default new Server()
+export default new Server().server

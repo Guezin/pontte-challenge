@@ -12,10 +12,20 @@ class ContractRepository implements IContractRepository {
     this.ormRepository = getRepository(Contract)
   }
 
-  public async listAllContracts(): Promise<Contract[]> {
+  public async listContracts(): Promise<Contract[]> {
     const contracts = await this.ormRepository.find()
 
     return contracts
+  }
+
+  public async findByContractId(
+    contract_id: string
+  ): Promise<Contract | undefined> {
+    const contract = await this.ormRepository.findOne({
+      where: { id: contract_id }
+    })
+
+    return contract
   }
 
   public async create({
