@@ -63,6 +63,13 @@ export class CreateContracts1601581387996 implements MigrationInterface {
           },
 
           {
+            name: 'state',
+            type: 'enum',
+            enum: ['creation', 'upload_of_images', 'approval'],
+            default: "'creation'"
+          },
+
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()'

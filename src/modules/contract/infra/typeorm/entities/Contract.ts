@@ -20,10 +20,10 @@ class Contract {
   @Column()
   cpf: string
 
-  @Column()
+  @Column('decimal')
   loan_amount: number
 
-  @Column()
+  @Column('decimal')
   monthly_income: number
 
   @Column()
@@ -34,6 +34,9 @@ class Contract {
 
   @Column()
   address: string
+
+  @Column('enum', { default: 'creation' })
+  state: 'creation' | 'upload_of_images' | 'approval'
 
   @CreateDateColumn()
   created_at: Date

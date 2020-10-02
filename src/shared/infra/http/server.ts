@@ -1,18 +1,33 @@
 import 'reflect-metadata'
 import 'dotenv/config'
-import express, { json } from 'express'
+import express, { json, Express } from 'express'
 
 import '@shared/infra/typeorm/database'
 
 import Routes from './routes/index.routes'
 
-const server = express()
+class Server {
+  private server: Express
+  private PORT: number
 
-const PORT = 3333
+  constructor() {
+    this.server = express()
+    this.PORT = 3333
 
-server.use(json())
-server.use(Routes)
+    this.middlewares()
+    this.init()
+  }
 
-server.listen(PORT, () =>
-  console.log(`Server is running http://localhost:${PORT}`)
-)
+  private middlewares() {
+    this.server.use(json())
+    this.server.use(Routes)
+  }
+
+  private init() {
+    this.server.listen(this.PORT, () =>
+      console.log(`Server is running http://localhost:${this.PORT}`)
+    )
+  }
+}
+
+export default new Server()
