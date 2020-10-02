@@ -1,6 +1,8 @@
 import { Router, IRouter } from 'express'
 
-import ContractRoutes from '@modules/contract/infra/http/routes/contract.routes'
+import UserRoutes from '@modules/users/infra/http/routes/user.routes'
+import ContractRoutes from '@modules/contracts/infra/http/routes/contract.routes'
+import DocumentRoutes from '@modules/documents/infra/http/routes/document.routes'
 
 class Routes {
   public readonly routes: IRouter
@@ -12,7 +14,9 @@ class Routes {
   }
 
   public init() {
+    this.routes.use('/users', UserRoutes)
     this.routes.use('/contracts', ContractRoutes)
+    this.routes.use('/documents', DocumentRoutes)
   }
 }
 

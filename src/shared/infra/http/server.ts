@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 import 'dotenv/config'
 import express, { json, Express } from 'express'
+import cors from 'cors'
 import 'express-async-errors'
 
 import '@shared/infra/typeorm/database'
@@ -24,6 +25,7 @@ class Server {
   private middlewares() {
     this.server.use(json())
     this.server.use(Routes)
+    this.server.use(cors)
     this.server.use(middlewareError)
   }
 
@@ -34,4 +36,4 @@ class Server {
   }
 }
 
-export default new Server().server
+export default new Server()
