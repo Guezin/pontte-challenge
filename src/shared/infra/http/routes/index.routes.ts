@@ -12,7 +12,7 @@ class Routes {
   }
 
   public init() {
-    this.routes.use('/contract', ContractRoutes)
+    this.routes.use('/contracts', ContractRoutes)
   }
 }
 

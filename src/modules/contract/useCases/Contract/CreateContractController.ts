@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { container } from 'tsyringe'
 
 import CreateContractUseCases from './CreateContractUseCases'
 
@@ -15,7 +16,7 @@ class CreateContractController {
       address
     } = request.body
 
-    const createContract = new CreateContractUseCases()
+    const createContract = container.resolve(CreateContractUseCases)
 
     const contract = await createContract.execute({
       name,

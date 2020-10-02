@@ -3,6 +3,7 @@ import 'dotenv/config'
 import express, { json, Express } from 'express'
 
 import '@shared/infra/typeorm/database'
+import '../container'
 
 import Routes from './routes/index.routes'
 

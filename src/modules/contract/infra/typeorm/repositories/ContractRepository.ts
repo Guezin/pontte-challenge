@@ -12,6 +12,12 @@ class ContractRepository implements IContractRepository {
     this.ormRepository = getRepository(Contract)
   }
 
+  public async listAllContracts(): Promise<Contract[]> {
+    const contracts = await this.ormRepository.find()
+
+    return contracts
+  }
+
   public async create({
     name,
     email,

@@ -1,5 +1,7 @@
+import { injectable, inject } from 'tsyringe'
+
 import Contract from '@modules/contract/infra/typeorm/entities/Contract'
-import ContractRepository from '@modules/contract/infra/typeorm/repositories/ContractRepository'
+import IContractRepository from '@modules/contract/repositories/IContractRepository'
 
 interface IRequest {
   name: string
@@ -12,12 +14,12 @@ interface IRequest {
   address: string
 }
 
+@injectable()
 class CreateContractUseCases {
-  private contractRepository: ContractRepository
-
-  constructor() {
-    this.contractRepository = new ContractRepository()
-  }
+  constructor(
+    @inject('ContractRepository')
+    private contractRepository: IContractRepository
+  ) {}
 
   public async execute({
     name,
@@ -29,7 +31,7 @@ class CreateContractUseCases {
     marital_status,
     address
   }: IRequest): Promise<Contract> {
-    const contract = this.contractRepository.create({
+    const contract = await this.contractRepository.create({
       name,
       email,
       cpf,
