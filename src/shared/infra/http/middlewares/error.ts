@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { QueryFailedError } from 'typeorm'
+import { MulterError } from 'multer'
 
 import AppError from '@shared/infra/errors/AppError'
 
@@ -17,6 +18,10 @@ export default (
 
   if (error instanceof QueryFailedError) {
     return response.status(401).json({ messageOfError: error.message })
+  }
+
+  if (error instanceof MulterError) {
+    return response.status(401).json({ messageOfError: error.code })
   }
 
   return response.status(500).json({ messageOfError: 'Internal Server Error' })

@@ -9,6 +9,7 @@ import '../container'
 
 import Routes from './routes/index.routes'
 import middlewareError from './middlewares/error'
+import uploadConfig from '@config/multer'
 
 class Server {
   public readonly server: Express
@@ -24,6 +25,7 @@ class Server {
 
   private middlewares() {
     this.server.use(json())
+    this.server.use('/files', express.static(uploadConfig.uploadsFolder))
     this.server.use(Routes)
     this.server.use(cors)
     this.server.use(middlewareError)

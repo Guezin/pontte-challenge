@@ -1,25 +1,15 @@
-import { Request, Response } from 'express'
+import { Request, Response, Express } from 'express'
 import { container } from 'tsyringe'
 
 import CreateDocumentUseCases from './CreateDocumentUseCases'
 
 class CreateDocumentController {
   public async store(request: Request, response: Response): Promise<Response> {
-    const {
-      personal_document,
-      proof_of_income,
-      immobile,
-      contract_id
-    } = request.body
+    const documents = request.files
 
     const createDocument = container.resolve(CreateDocumentUseCases)
 
-    const document = await createDocument.execute({
-      personal_document,
-      proof_of_income,
-      immobile,
-      contract_id
-    })
+    const document = await createDocument.execute(documents)
 
     return response.json(document)
   }
