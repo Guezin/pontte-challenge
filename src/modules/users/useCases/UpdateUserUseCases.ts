@@ -44,8 +44,10 @@ class UpdateUserUseCases {
       throw new AppError('Sorry, user not found')
     }
 
-    if (contract.state === 'approval') {
-      throw new AppError('Unable to update, contract in approval status', 401)
+    if (contract.state === 'approved') {
+      throw new AppError('Unable to update, contract in approved status', 401)
+    } else if (contract.state === 'rejected') {
+      throw new AppError('Unable to update, contract in rejected status', 401)
     }
 
     const updatedUser = Object.assign(user, {

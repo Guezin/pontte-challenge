@@ -20,7 +20,7 @@ class Contract {
   loan_amount: number
 
   @Column('enum', { default: 'creation' })
-  state: 'creation' | 'upload_of_images' | 'approval'
+  state: 'creation' | 'upload_of_images' | 'approval' | 'approved' | 'rejected'
 
   @Column()
   user_id: string

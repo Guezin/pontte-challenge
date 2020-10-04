@@ -24,7 +24,13 @@ export class CreateContracts1601671635030 implements MigrationInterface {
           {
             name: 'state',
             type: 'enum',
-            enum: ['creation', 'upload_of_images', 'approval'],
+            enum: [
+              'creation',
+              'upload_of_images',
+              'approval',
+              'approved',
+              'rejected'
+            ],
             default: "'creation'"
           },
 
