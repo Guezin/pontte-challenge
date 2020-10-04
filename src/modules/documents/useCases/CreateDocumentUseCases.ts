@@ -5,6 +5,7 @@ import Document from '@modules/documents/infra/typeorm/entities/Document'
 import { IFileNames } from '@modules/documents/useCases/ICreateDocumentDTO'
 import IDocumentRepository from '@modules/documents/repositories/IDocumentRepository'
 import IContractRepository from '@modules/contracts/repositories/IContractRepository'
+import IStorageProvider from '@shared/infra/container/providers/StorageProvider/models/IStorageProvider'
 
 interface IRequest {
   [fieldname: string]: Express.Multer.File[]
@@ -17,7 +18,10 @@ class CreateDocumentUseCases {
     private documentRepository: IDocumentRepository,
 
     @inject('ContractRepository')
-    private contractRepository: IContractRepository
+    private contractRepository: IContractRepository,
+
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider
   ) {}
 
   public async execute(
@@ -42,6 +46,8 @@ class CreateDocumentUseCases {
       document_id: document.id,
       contract_id: document.contract_id
     })
+
+    await this.storageProvider.saveFiles(fileNames)
 
     return document
   }
