@@ -27,18 +27,15 @@ class UpdateContractUseCases {
       throw new AppError('Sorry, contract not found!')
     }
 
-    if (
-      contract.state === 'creation' ||
-      contract.state === 'upload_of_images'
-    ) {
-      contract.loan_amount = loan_amount
-
-      await this.contractRepository.save(contract)
-
-      return contract
-    } else {
-      throw new AppError('It is not possible to update in approval status', 401)
+    if (contract.state === 'approval') {
+      throw new AppError('Unable to update, contract in approval status', 401)
     }
+
+    contract.loan_amount = loan_amount
+
+    await this.contractRepository.save(contract)
+
+    return contract
   }
 }
 

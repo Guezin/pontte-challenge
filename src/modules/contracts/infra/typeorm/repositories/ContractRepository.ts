@@ -31,6 +31,14 @@ class ContractRepository implements IContractRepository {
     return contract
   }
 
+  public async findByUserId(user_id: string): Promise<Contract | undefined> {
+    const contract = await this.ormRepository.findOne({
+      where: { user_id: user_id }
+    })
+
+    return contract
+  }
+
   public async create({
     loan_amount,
     user_id

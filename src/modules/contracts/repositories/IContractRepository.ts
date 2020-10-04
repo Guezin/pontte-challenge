@@ -12,5 +12,6 @@ export default interface IContractRepository {
   create: (contractData: ICreateContractDTO) => Promise<Contract>
   save: (contract: Contract) => Promise<void>
   findById: (contract_id: string) => Promise<Contract | undefined>
+  findByUserId: (user_id: string) => Promise<Contract | undefined>
   saveDocuments: (documentsData: ISaveDocuments) => Promise<void>
 }
