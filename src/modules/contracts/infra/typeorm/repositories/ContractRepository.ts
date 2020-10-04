@@ -46,6 +46,10 @@ class ContractRepository implements IContractRepository {
     return contract
   }
 
+  public async save(contract: Contract): Promise<void> {
+    await this.ormRepository.save(contract)
+  }
+
   public async saveDocuments({
     document_id,
     contract_id
