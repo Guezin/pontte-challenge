@@ -23,6 +23,6 @@ export default (
   if (error instanceof MulterError) {
     return response.status(401).json({ messageOfError: error.code })
   }
-
+  console.log(error)
   return response.status(500).json({ messageOfError: 'Internal Server Error' })
 }

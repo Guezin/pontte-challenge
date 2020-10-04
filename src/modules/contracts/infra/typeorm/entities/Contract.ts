@@ -8,6 +8,7 @@ import {
   UpdateDateColumn
 } from 'typeorm'
 
+import Document from '@modules/documents/infra/typeorm/entities/Document'
 import User from '@modules/users/infra/typeorm/entities/User'
 
 @Entity('contracts')
@@ -27,6 +28,13 @@ class Contract {
   @OneToOne(() => User, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: User
+
+  @Column()
+  document_id: string
+
+  @OneToOne(() => Document)
+  @JoinColumn({ name: 'document_id' })
+  documents: Document
 
   @CreateDateColumn()
   created_at: Date

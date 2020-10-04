@@ -13,19 +13,17 @@ class DocumentRepository implements IDocumentRepository {
   }
 
   public async create({
-    personal_document,
-    proof_of_income,
-    immobile,
+    fileNames,
     contract_id
   }: ICreateDocumentDTO): Promise<Document> {
     const document = this.ormRepository.create({
-      personal_document,
-      proof_of_income,
-      immobile,
-      contract_id
+      contract_id,
+      personal_document: fileNames.personal_document,
+      proof_of_income: fileNames.proof_of_income,
+      immobile: fileNames.immobile
     })
 
-    // await this.ormRepository.save(document)
+    await this.ormRepository.save(document)
 
     return document
   }
