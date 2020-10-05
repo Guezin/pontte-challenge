@@ -38,6 +38,7 @@ class UserRoutes {
       '/update',
       celebrate({
         [Segments.BODY]: Joi.object().keys({
+          user_id: Joi.string().uuid().required(),
           name: Joi.string().required(),
           email: Joi.string().email().required(),
           cpf: Joi.string().required(),

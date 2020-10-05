@@ -4,7 +4,7 @@ import { container } from 'tsyringe'
 import UpdateContractUseCases from '@modules/contracts/useCases/UpdateContractUseCases'
 
 class UpdateContractController {
-  public async store(request: Request, response: Response): Promise<Response> {
+  public async update(request: Request, response: Response): Promise<Response> {
     const { contract_id, loan_amount } = request.body
 
     const updateContract = container.resolve(UpdateContractUseCases)
