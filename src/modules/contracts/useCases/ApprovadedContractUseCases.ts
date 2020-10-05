@@ -4,12 +4,16 @@ import AppError from '@shared/errors/AppError'
 
 import Contract from '@modules/contracts/infra/typeorm/entities/Contract'
 import IContractRepository from '@modules/contracts/repositories/IContractRepository'
+import IMailProvider from '@shared/infra/container/providers/MailProvider/models/IMailProvider'
 
 @injectable()
 class ApprovadedContractUseCases {
   constructor(
     @inject('ContractRepository')
-    private contractRepository: IContractRepository
+    private contractRepository: IContractRepository,
+
+    @inject('MailProvider')
+    private etherealMail: IMailProvider
   ) {}
 
   public async execute(contract_id: string): Promise<Contract> {
@@ -28,6 +32,14 @@ class ApprovadedContractUseCases {
     contract.state = 'approved'
 
     await this.contractRepository.save(contract)
+
+    await this.etherealMail.sendMail({
+      to: {
+        name: contract.user.name,
+        email: contract.user.email
+      },
+      subject: 'Empréstimo Aprovado'
+    })
 
     return contract
   }
