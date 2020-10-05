@@ -1,4 +1,5 @@
 import { Router, IRouter } from 'express'
+import { celebrate, Joi, Segments } from 'celebrate'
 
 import CreateUserController from '@modules/users/useCases/CreateUserController'
 import UpdateUserController from '@modules/users/useCases/UpdateUserController'
@@ -18,8 +19,36 @@ class UserRoutes {
   }
 
   private init() {
-    this.routes.post('/', this.createUser.store)
-    this.routes.put('/update', this.updateUser.update)
+    this.routes.post(
+      '/',
+      celebrate({
+        [Segments.BODY]: Joi.object().keys({
+          name: Joi.string().required(),
+          email: Joi.string().email().required(),
+          cpf: Joi.string().required(),
+          monthly_income: Joi.number().required(),
+          date_of_birth: Joi.string().required(),
+          marital_status: Joi.string().required(),
+          address: Joi.string().required()
+        })
+      }),
+      this.createUser.store
+    )
+    this.routes.put(
+      '/update',
+      celebrate({
+        [Segments.BODY]: Joi.object().keys({
+          name: Joi.string().required(),
+          email: Joi.string().email().required(),
+          cpf: Joi.string().required(),
+          monthly_income: Joi.number().required(),
+          date_of_birth: Joi.string().required(),
+          marital_status: Joi.string().required(),
+          address: Joi.string().required()
+        })
+      }),
+      this.updateUser.update
+    )
   }
 }
 

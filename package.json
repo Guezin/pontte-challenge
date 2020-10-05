@@ -1,7 +1,7 @@
 {
   "name": "pontte",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/shared/infra/http/server.ts",
   "author": "Guezin <leandroguezinjunior@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -9,8 +9,10 @@
     "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
+    "celebrate": "^13.0.3",
     "class-transformer": "^0.3.1",
     "cors": "^2.8.5",
+    "cpf-cnpj-validator": "^1.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",

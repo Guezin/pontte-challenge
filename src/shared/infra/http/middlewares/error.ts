@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { QueryFailedError } from 'typeorm'
 import { MulterError } from 'multer'
 
-import AppError from '@shared/infra/errors/AppError'
+import AppError from '@shared/errors/AppError'
 
 export default (
   error: Error,

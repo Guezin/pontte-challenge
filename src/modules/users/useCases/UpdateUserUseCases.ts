@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe'
 
-import AppError from '@shared/infra/errors/AppError'
+import AppError from '@shared/errors/AppError'
+import cpfValidate from '@shared/utils/cpfValidate'
 
 import User from '@modules/users/infra/typeorm/entities/User'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
@@ -37,6 +38,10 @@ class UpdateUserUseCases {
     marital_status,
     address
   }: IRequest): Promise<User> {
+    if (!cpfValidate(cpf)) {
+      throw new AppError('Sorry, cpf invalid!')
+    }
+
     const user = await this.userRepository.findById(user_id)
     const contract = await this.contractRepository.findByUserId(user_id)
 

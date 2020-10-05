@@ -3,6 +3,7 @@ import 'dotenv/config'
 import express, { json, Express } from 'express'
 import cors from 'cors'
 import 'express-async-errors'
+import { errors } from 'celebrate'
 
 import '@shared/infra/typeorm/database'
 import '../container'
@@ -28,6 +29,7 @@ class Server {
     this.server.use('/files', express.static(uploadConfig.uploadsFolder))
     this.server.use(Routes)
     this.server.use(cors)
+    this.server.use(errors({ statusCode: 401 }))
     this.server.use(middlewareError)
   }
 

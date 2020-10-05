@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe'
 
-import AppError from '@shared/infra/errors/AppError'
+import AppError from '@shared/errors/AppError'
 
 import Contract from '@modules/contracts/infra/typeorm/entities/Contract'
 import IContractRepository from '@modules/contracts/repositories/IContractRepository'
