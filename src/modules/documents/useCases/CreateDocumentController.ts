@@ -15,7 +15,10 @@ class CreateDocumentController {
       String(contract_id)
     )
 
-    return response.json(document)
+    return response.json({
+      document_id: document.id,
+      ...document
+    })
   }
 }
 

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
+import { classToClass } from 'class-transformer'
 
 import ListContractUseCases from '@modules/contracts/useCases/ListContractUseCases'
 
@@ -10,7 +11,9 @@ class ListContractController {
 
     const contract = await listContract.execute(contract_id)
 
-    return response.json(contract)
+    return response.json(
+      classToClass({ contract_id: contract.id, ...contract })
+    )
   }
 }
 

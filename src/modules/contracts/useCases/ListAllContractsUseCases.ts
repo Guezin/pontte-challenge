@@ -13,7 +13,14 @@ class ListAllContractsUseCases {
   public async execute(): Promise<Contract[]> {
     const contracts = await this.contractRepository.listContracts()
 
-    return contracts
+    const response = contracts.map(contract => {
+      return {
+        contract_id: contract.id,
+        ...contract
+      }
+    })
+
+    return response
   }
 }
 

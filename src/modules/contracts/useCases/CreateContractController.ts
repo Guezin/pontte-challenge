@@ -11,7 +11,10 @@ class CreateContractController {
 
     const contract = await createContract.execute({ loan_amount, user_id })
 
-    return response.json(contract)
+    return response.json({
+      contract_id: contract.id,
+      ...contract
+    })
   }
 }
 

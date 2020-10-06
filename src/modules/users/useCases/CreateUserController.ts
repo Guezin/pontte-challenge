@@ -27,7 +27,10 @@ class CreateUserController {
       address
     })
 
-    return response.json(user)
+    return response.json({
+      user_id: user.id,
+      ...user
+    })
   }
 }
 
