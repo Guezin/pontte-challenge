@@ -10,8 +10,8 @@ export interface ISaveDocuments {
 export default interface IContractRepository {
   listContracts: () => Promise<Contract[]>
   create: (contractData: ICreateContractDTO) => Promise<Contract>
-  save: (contract: Contract) => Promise<void>
+  save: (contract: Contract) => Promise<Contract>
   findById: (contract_id: string) => Promise<Contract | undefined>
   findByUserId: (user_id: string) => Promise<Contract | undefined>
-  saveDocuments: (documentsData: ISaveDocuments) => Promise<void>
+  saveDocuments: (documentsData: ISaveDocuments) => Promise<Contract>
 }

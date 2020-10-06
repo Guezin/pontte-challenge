@@ -65,9 +65,9 @@ class UpdateUserUseCases {
       address
     })
 
-    await this.userRepository.save(updatedUser)
+    const reponse = await this.userRepository.save(updatedUser)
 
-    return updatedUser
+    return reponse
   }
 }
 

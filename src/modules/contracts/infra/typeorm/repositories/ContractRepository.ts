@@ -54,14 +54,16 @@ class ContractRepository implements IContractRepository {
     return contract
   }
 
-  public async save(contract: Contract): Promise<void> {
-    await this.ormRepository.save(contract)
+  public async save(contract: Contract): Promise<Contract> {
+    const updatedContract = await this.ormRepository.save(contract)
+
+    return updatedContract
   }
 
   public async saveDocuments({
     document_id,
     contract_id
-  }: ISaveDocuments): Promise<void> {
+  }: ISaveDocuments): Promise<Contract> {
     const contract = await this.ormRepository.findOne({
       where: { id: contract_id }
     })
@@ -70,6 +72,8 @@ class ContractRepository implements IContractRepository {
     contract.state = 'approval'
 
     await this.ormRepository.save(contract)
+
+    return contract
   }
 }
 

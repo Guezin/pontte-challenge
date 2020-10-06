@@ -1,5 +1,7 @@
 import { injectable, inject } from 'tsyringe'
 
+import AppError from '@shared/errors/AppError'
+
 import Document from '@modules/documents/infra/typeorm/entities/Document'
 
 import { IFileNames } from '@modules/documents/useCases/ICreateDocumentDTO'
@@ -28,8 +30,19 @@ class CreateDocumentUseCases {
     documents: Express.Multer.File[] | IRequest,
     contract_id: string
   ): Promise<Document> {
-    let fileNames: IFileNames
+    const contract = await this.contractRepository.findById(contract_id)
 
+    if (!contract) {
+      throw new AppError('Sorry, contract not found')
+    }
+
+    if (contract.state === 'approved') {
+      throw new AppError('Unable to update, contract in approved status', 401)
+    } else if (contract.state === 'rejected') {
+      throw new AppError('Unable to update, contract in rejected status', 401)
+    }
+
+    let fileNames: IFileNames
     for (let file = 0; file < documents.length; file++) {
       fileNames = {
         ...fileNames,

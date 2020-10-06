@@ -35,9 +35,9 @@ class UpdateContractUseCases {
 
     contract.loan_amount = loan_amount
 
-    await this.contractRepository.save(contract)
+    const response = await this.contractRepository.save(contract)
 
-    return contract
+    return response
   }
 }
 
