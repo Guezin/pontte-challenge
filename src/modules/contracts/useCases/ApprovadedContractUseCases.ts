@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe'
+import { resolve } from 'path'
 
 import AppError from '@shared/errors/AppError'
 
@@ -33,12 +34,28 @@ class ApprovadedContractUseCases {
 
     await this.contractRepository.save(contract)
 
+    const approvadedContractTemplate = resolve(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'shared',
+      'views',
+      'approvaded_contract.hbs'
+    )
+
     await this.etherealMail.sendMail({
       to: {
         name: contract.user.name,
         email: contract.user.email
       },
-      subject: 'Empréstimo Aprovado'
+      subject: 'Empréstimo Aprovado',
+      templateData: {
+        file: approvadedContractTemplate,
+        variables: {
+          name: contract.user.name
+        }
+      }
     })
 
     return contract
