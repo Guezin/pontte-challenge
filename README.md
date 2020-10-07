@@ -33,6 +33,18 @@ APP_DB_NAME=
 API_URL=
 ```
 
+<h1>Migrations</h1>
+
+Após preencher todas as variaveis de ambiente, rode o seguinte comando no terminal/cmd para criar as tabelas no banco de dados:
+
+```bash
+# Criação das tabelas no banco de dados
+$ npm run typeorm migration:run ou yarn typeorm migration:run
+
+```
+
+<br>
+
 <h1>🎲 Rodando o Back End (servidor) </h1>
 
 ```bash
@@ -50,6 +62,8 @@ $ npm run dev:server ou yarn dev:server
 
 # O servidor inciará na porta:3333 - acesse <http://localhost:3333>
 ```
+
+<br>
 
 <h1>Requisições</h1>
 
@@ -227,6 +241,15 @@ immobile: "imagem_imovel_nova.png"
 **OBS: O envio de e-mail foi implementado apenas em modo de desenvolvimento, para visualizar o e-mail, acesse o link que vai estar no terminal/cmd -> PreviewUrl: Link_aqui**
 
 <br>
+
+<h1>Testes Unitários</h1>
+
+Para rodar os testes unitários execute o seguinte comando no terminal/cmd:
+
+```bash
+# Execute os testes
+$ npm run test ou yarn test
+```
 
 <h1>🛠 Tecnologias</h1>
 
