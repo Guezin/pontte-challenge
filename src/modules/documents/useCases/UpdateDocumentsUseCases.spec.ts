@@ -2,48 +2,63 @@ import FakeDocumentRepository from '../repositories/fakes/FakeDocumentRepository
 import FakeContractRepository from '@modules/contracts/repositories/fakes/FakeContractRepository'
 import FakeStorageProvider from '@shared/infra/container/providers/StorageProvider/fakes/FakeStorageProvider'
 
-import CreateDocumentUseCases from './CreateDocumentUseCases'
+import UpdateDocumentsUseCases from './UpdateDocumentsUseCases'
 
 import AppError from '@shared/errors/AppError'
 
 let fakeDocumentRepository: FakeDocumentRepository
 let fakeContractRepository: FakeContractRepository
 let fakeStorageProvider: FakeStorageProvider
-let createDocumentUseCases: CreateDocumentUseCases
+let updateDocumentUseCases: UpdateDocumentsUseCases
 
-describe('CreateDocumentUseCases', () => {
+describe('UpdateDocumentsUseCases', () => {
   beforeEach(() => {
     fakeDocumentRepository = new FakeDocumentRepository()
     fakeContractRepository = new FakeContractRepository()
     fakeStorageProvider = new FakeStorageProvider()
-    createDocumentUseCases = new CreateDocumentUseCases(
+    updateDocumentUseCases = new UpdateDocumentsUseCases(
       fakeDocumentRepository,
       fakeContractRepository,
       fakeStorageProvider
     )
   })
 
-  it('should be able to create document', async () => {
-    const contract = await fakeContractRepository.create({
-      user_id: 'e1648eca-adff-4a2c-babc-919bde269378',
-      loan_amount: 125000
-    })
-
+  it('should be able to update document', async () => {
     const fileNames = {
       personal_document: 'myDocumentCpfOrCnh.png',
       proof_of_income: 'proofIncome.png',
       immobile: 'immobile.png'
     }
 
-    const documents = await createDocumentUseCases.execute(
+    const contract = await fakeContractRepository.create({
+      user_id: 'e1648eca-adff-4a2c-babc-919bde269378',
+      loan_amount: 125000
+    })
+
+    const documents = await fakeDocumentRepository.create({
       fileNames,
-      contract.id
+      contract_id: contract.id
+    })
+
+    const updatedFileNames = {
+      personal_document: 'newMyDocumentCpfOrCnh.png',
+      proof_of_income: 'newProofIncome.png',
+      immobile: 'newImmobile.png'
+    }
+
+    const updatedDocuments = await updateDocumentUseCases.execute(
+      updatedFileNames,
+      documents.id
     )
 
-    expect(documents).toHaveProperty('id')
+    expect(updatedDocuments.personal_document).toEqual(
+      'newMyDocumentCpfOrCnh.png'
+    )
+    expect(updatedDocuments.proof_of_income).toEqual('newProofIncome.png')
+    expect(updatedDocuments.immobile).toEqual('newImmobile.png')
   })
 
-  it('should not be able to create document if the contract does not exist', async () => {
+  it('should not be able to update document if the document does not exist', async () => {
     const fileNames = {
       personal_document: 'myDocumentCpfOrCnh.png',
       proof_of_income: 'proofIncome.png',
@@ -51,11 +66,11 @@ describe('CreateDocumentUseCases', () => {
     }
 
     await expect(
-      createDocumentUseCases.execute(fileNames, 'wrong-contract_id')
+      updateDocumentUseCases.execute(fileNames, 'wrong-document_id')
     ).rejects.toBeInstanceOf(AppError)
   })
 
-  it('should not be able create document with state approved', async () => {
+  it('should not be able to update document if the contract is state approved', async () => {
     const fileNames = {
       personal_document: 'myDocumentCpfOrCnh.png',
       proof_of_income: 'proofIncome.png',
@@ -71,12 +86,17 @@ describe('CreateDocumentUseCases', () => {
 
     await fakeContractRepository.save(contract)
 
+    const documents = await fakeDocumentRepository.create({
+      fileNames,
+      contract_id: contract.id
+    })
+
     await expect(
-      createDocumentUseCases.execute(fileNames, contract.id)
+      updateDocumentUseCases.execute(fileNames, documents.id)
     ).rejects.toBeInstanceOf(AppError)
   })
 
-  it('should not be able to create document with state rejected', async () => {
+  it('should not be able to update document if the contract is state rejected', async () => {
     const fileNames = {
       personal_document: 'myDocumentCpfOrCnh.png',
       proof_of_income: 'proofIncome.png',
@@ -92,8 +112,13 @@ describe('CreateDocumentUseCases', () => {
 
     await fakeContractRepository.save(contract)
 
+    const documents = await fakeDocumentRepository.create({
+      fileNames,
+      contract_id: contract.id
+    })
+
     await expect(
-      createDocumentUseCases.execute(fileNames, contract.id)
+      updateDocumentUseCases.execute(fileNames, documents.id)
     ).rejects.toBeInstanceOf(AppError)
   })
 })

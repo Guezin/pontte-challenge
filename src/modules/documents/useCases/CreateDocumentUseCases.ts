@@ -4,13 +4,14 @@ import AppError from '@shared/errors/AppError'
 
 import Document from '@modules/documents/infra/typeorm/entities/Document'
 
-import { IFileNames } from '@modules/documents/useCases/ICreateDocumentDTO'
 import IDocumentRepository from '@modules/documents/repositories/IDocumentRepository'
 import IContractRepository from '@modules/contracts/repositories/IContractRepository'
 import IStorageProvider from '@shared/infra/container/providers/StorageProvider/models/IStorageProvider'
 
 interface IRequest {
-  [fieldname: string]: Express.Multer.File[]
+  personal_document: string
+  proof_of_income: string
+  immobile: string
 }
 
 @injectable()
@@ -27,7 +28,7 @@ class CreateDocumentUseCases {
   ) {}
 
   public async execute(
-    documents: Express.Multer.File[] | IRequest,
+    fileNames: IRequest,
     contract_id: string
   ): Promise<Document> {
     const contract = await this.contractRepository.findById(contract_id)
@@ -40,14 +41,6 @@ class CreateDocumentUseCases {
       throw new AppError('Unable to update, contract in approved status', 401)
     } else if (contract.state === 'rejected') {
       throw new AppError('Unable to update, contract in rejected status', 401)
-    }
-
-    let fileNames: IFileNames
-    for (let file = 0; file < documents.length; file++) {
-      fileNames = {
-        ...fileNames,
-        [documents[file].fieldname]: documents[file].filename
-      }
     }
 
     const document = await this.documentRepository.create({
