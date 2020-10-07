@@ -135,7 +135,7 @@ describe('UpdateUserUseCases', () => {
     ).rejects.toBeInstanceOf(AppError)
   })
 
-  it('should not be able to update user if the contract is approvaded', async () => {
+  it('should not be able to update user if the contract is approved', async () => {
     const user = await fakeUserRepository.create({
       name: 'John Doe',
       email: 'johndoe@email.com',

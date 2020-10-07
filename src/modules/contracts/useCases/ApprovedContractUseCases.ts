@@ -8,7 +8,7 @@ import IContractRepository from '@modules/contracts/repositories/IContractReposi
 import IMailProvider from '@shared/infra/container/providers/MailProvider/models/IMailProvider'
 
 @injectable()
-class ApprovadedContractUseCases {
+class ApprovedContractUseCases {
   constructor(
     @inject('ContractRepository')
     private contractRepository: IContractRepository,
@@ -34,14 +34,14 @@ class ApprovadedContractUseCases {
 
     await this.contractRepository.save(contract)
 
-    const approvadedContractTemplate = resolve(
+    const approvedContractTemplate = resolve(
       __dirname,
       '..',
       '..',
       '..',
       'shared',
       'views',
-      'approvaded_contract.hbs'
+      'approved_contract.hbs'
     )
 
     await this.etherealMail.sendMail({
@@ -51,7 +51,7 @@ class ApprovadedContractUseCases {
       },
       subject: 'Empréstimo Aprovado',
       templateData: {
-        file: approvadedContractTemplate,
+        file: approvedContractTemplate,
         variables: {
           name: contract.user.name
         }
@@ -62,4 +62,4 @@ class ApprovadedContractUseCases {
   }
 }
 
-export default ApprovadedContractUseCases
+export default ApprovedContractUseCases

@@ -42,7 +42,8 @@ class FakeContractRepository implements IContractRepository {
     Object.assign(contract, {
       id: uuid(),
       loan_amount,
-      user_id
+      user_id,
+      state: 'upload_of_images'
     })
 
     this.contracts.push(contract)
