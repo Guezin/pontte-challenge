@@ -33,7 +33,7 @@ class ContractRepository implements IContractRepository {
 
   public async findByUserId(user_id: string): Promise<Contract | undefined> {
     const contract = await this.ormRepository.findOne({
-      where: { user_id: user_id }
+      where: { user_id }
     })
 
     return contract
@@ -45,7 +45,7 @@ class ContractRepository implements IContractRepository {
   }: ICreateContractDTO): Promise<Contract> {
     const contract = this.ormRepository.create({
       loan_amount,
-      user_id: user_id,
+      user_id,
       state: 'upload_of_images'
     })
 

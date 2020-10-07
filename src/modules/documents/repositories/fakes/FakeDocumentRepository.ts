@@ -19,12 +19,14 @@ class FakeDocumentRepository implements IDocumentRepository {
   }: ICreateDocumentDTO): Promise<Document> {
     const document = new Document()
 
+    const { personal_document, proof_of_income, immobile } = fileNames
+
     Object.assign(document, {
       id: uuid(),
       contract_id,
-      personal_document: fileNames.personal_document,
-      proof_of_income: fileNames.proof_of_income,
-      immobile: fileNames.immobile
+      personal_document,
+      proof_of_income,
+      immobile
     })
 
     this.documents.push(document)

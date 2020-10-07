@@ -7,12 +7,7 @@ import Document from '@modules/documents/infra/typeorm/entities/Document'
 import IDocumentRepository from '@modules/documents/repositories/IDocumentRepository'
 import IContractRepository from '@modules/contracts/repositories/IContractRepository'
 import IStorageProvider from '@shared/infra/container/providers/StorageProvider/models/IStorageProvider'
-
-interface IRequest {
-  personal_document: string
-  proof_of_income: string
-  immobile: string
-}
+import { IFileNames } from './ICreateDocumentDTO'
 
 @injectable()
 class CreateDocumentUseCases {
@@ -28,7 +23,7 @@ class CreateDocumentUseCases {
   ) {}
 
   public async execute(
-    fileNames: IRequest,
+    fileNames: IFileNames,
     contract_id: string
   ): Promise<Document> {
     const contract = await this.contractRepository.findById(contract_id)

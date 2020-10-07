@@ -95,6 +95,21 @@ describe('UpdateUserUseCases', () => {
   })
 
   it('should not be able to update user if not exists', async () => {
+    await expect(
+      updateUserUseCases.execute({
+        user_id: 'wrong-userId',
+        name: 'John Doe',
+        email: 'johndoe@email.com',
+        cpf: '10699945887',
+        date_of_birth: '30/11/1995',
+        marital_status: 'solteiro',
+        address: 'Av. Paulista, 1578 - Bela Vista, São Paulo - SP, 01310-200',
+        monthly_income: 5000
+      })
+    ).rejects.toBeInstanceOf(AppError)
+  })
+
+  it('should not be able to update user if contract not exists', async () => {
     const user = await fakeUserRepository.create({
       name: 'John Doe',
       email: 'johndoe@email.com',
@@ -103,11 +118,6 @@ describe('UpdateUserUseCases', () => {
       marital_status: 'solteiro',
       address: 'Av. Paulista, 1578 - Bela Vista, São Paulo - SP, 01310-200',
       monthly_income: 5000
-    })
-
-    await fakeContractRepository.create({
-      user_id: user.id,
-      loan_amount: 60000
     })
 
     const {
@@ -123,7 +133,7 @@ describe('UpdateUserUseCases', () => {
     expect(cpfValidate(user.cpf)).toBe(true)
     await expect(
       updateUserUseCases.execute({
-        user_id: 'wrong-userId',
+        user_id: user.id,
         name,
         email,
         cpf,

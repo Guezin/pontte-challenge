@@ -49,6 +49,13 @@ class UpdateUserUseCases {
       throw new AppError('Sorry, user not found')
     }
 
+    if (!contract) {
+      throw new AppError(
+        'It is necessary to create a contract first and then update user data',
+        401
+      )
+    }
+
     if (contract.state === 'approved') {
       throw new AppError('Unable to update, contract in approved status', 401)
     } else if (contract.state === 'rejected') {

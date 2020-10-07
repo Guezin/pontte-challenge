@@ -1,4 +1,5 @@
 import { Router, IRouter } from 'express'
+import { celebrate, Joi, Segments } from 'celebrate'
 
 import ListContractController from '@modules/contracts/useCases/ListContractController'
 import ListAllContractsController from '@modules/contracts/useCases/ListAllContractsController'
@@ -32,11 +33,45 @@ class ContractRoutes {
   private init() {
     this.routes.get('/:contract_id', this.listContract.show)
     this.routes.get('/', this.listAllContracts.index)
-    this.routes.post('/', this.createContract.store)
-    this.routes.put('/update', this.updateContract.update)
+    this.routes.post(
+      '/',
+      celebrate({
+        [Segments.BODY]: Joi.object().keys({
+          user_id: Joi.string().uuid().required(),
+          loan_amount: Joi.number().required()
+        })
+      }),
+      this.createContract.store
+    )
+    this.routes.put(
+      '/update',
+      celebrate({
+        [Segments.BODY]: Joi.object().keys({
+          contract_id: Joi.string().uuid().required(),
+          loan_amount: Joi.number().required()
+        })
+      }),
+      this.updateContract.update
+    )
 
-    this.routes.patch('/approved', this.approvedContract.store)
-    this.routes.patch('/rejected', this.rejectedContract.store)
+    this.routes.patch(
+      '/approved',
+      celebrate({
+        [Segments.BODY]: Joi.object().keys({
+          contract_id: Joi.string().uuid().required()
+        })
+      }),
+      this.approvedContract.store
+    )
+    this.routes.patch(
+      '/rejected',
+      celebrate({
+        [Segments.BODY]: Joi.object().keys({
+          contract_id: Joi.string().uuid().required()
+        })
+      }),
+      this.rejectedContract.store
+    )
   }
 }
 
