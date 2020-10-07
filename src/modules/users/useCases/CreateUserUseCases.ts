@@ -33,7 +33,7 @@ class CreateUserUseCases {
     address
   }: IRequest): Promise<User> {
     if (!cpfValidate(cpf)) {
-      throw new AppError('Sorry, cpf invalid!')
+      throw new AppError('Sorry, enter a valid cpf.')
     }
 
     const user = await this.userRepository.create({

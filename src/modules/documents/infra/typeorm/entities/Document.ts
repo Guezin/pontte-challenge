@@ -35,20 +35,22 @@ class Document {
   @Expose({ name: 'personal_document_url' })
   getPersonalDocumentUrl(): string | null {
     return this.personal_document
-      ? `http://localhost:3333/files/${this.personal_document}`
+      ? `http://${process.env.API_URL}/files/${this.personal_document}`
       : null
   }
 
   @Expose({ name: 'proof_of_income_url' })
   getProofOfIncomeUrl(): string | null {
     return this.proof_of_income
-      ? `http://localhost:3333/files/${this.proof_of_income}`
+      ? `http://${process.env.API_URL}/files/${this.proof_of_income}`
       : null
   }
 
   @Expose({ name: 'immobile_url' })
   getImmobileUrl(): string | null {
-    return this.immobile ? `http://localhost:3333/files/${this.immobile}` : null
+    return this.immobile
+      ? `http://${process.env.API_URL}/files/${this.immobile}`
+      : null
   }
 
   @CreateDateColumn()
